@@ -1,0 +1,37 @@
+{{template "header"}}
+<title>农业大棚监控</title>
+
+<style>
+    .center-block {
+        text-align:center;
+    }
+</style>
+</head>
+
+<body>
+    <script type="text/javascript" src="/static/js/home.js"></script>
+    <div class="page-header">
+        <h1 class="center-block">农业大棚监控系统</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            {{range .NodeDatas}}
+            <div class="col-xs-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{.Name}}</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{$NodeID := .ID}}
+                        {{range .EnvData}}
+                        <p>{{.EnvName}}: <span id="{{$NodeID}}-{{.EnvName}}">{{.EnvValue}}</span> {{.EnvUnit}}</p>
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
+</body>
+
+</html>
