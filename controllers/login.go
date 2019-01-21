@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"io"
 	"nkyWebServer/models"
 
 	"github.com/astaxie/beego"
@@ -20,6 +21,7 @@ func (c *LoginController) Post() {
 	uname := c.Input().Get("uname")
 	pwd := c.Input().Get("pwd")
 	autoLogin := c.Input().Get("autoLogin") == "on"
+	beego.Info(uname, pwd, autoLogin)
 
 	// 验证表单
 	if models.CheckAccount(uname, pwd) {
@@ -29,13 +31,16 @@ func (c *LoginController) Post() {
 		}
 		c.Ctx.SetCookie("uname", uname, maxAge, "/")
 		c.Ctx.SetCookie("pwd", pwd, maxAge, "/")
+		io.WriteString(c.Ctx.ResponseWriter, "true")
+		return
 	} else {
 		// c.EnableRender = false
-		c.Redirect("/login", 302)
+		// c.Redirect("/login", 302)
+		io.WriteString(c.Ctx.ResponseWriter, "账户密码错误")
 		return
 	}
 	// 重定向
-	c.Redirect("/", 302)
+	// c.Redirect("/", 302)
 }
 
 func checkAccountCookie(ctx *context.Context) bool {

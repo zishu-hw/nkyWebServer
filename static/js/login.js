@@ -1,27 +1,32 @@
 function checkInput() {
     var uname = document.getElementById("uname");
-    var uname_h = document.getElementById("uname-h");
     if (uname.value.length == 0) {
-        uname_h.innerText = "请输入账户名";
+        showInfo("请输入账号");
+        return false;
+    } else if(uname.value.indexOf(" ") != -1) {
+        showInfo("账户中不能包含空格");
         return false;
     }
-    uname_h.innerText = "";
     var pwd = document.getElementById("pwd");
-    var pwd_h = document.getElementById("pwd-h");
     if (pwd.value.length == 0) {
-        pwd_h.innerText = "请输入密码";
+        showInfo("请输入密码");
+        return false;
+    } else if(uname.value.indexOf(" ") != -1) {
+        showInfo("密码中不能包含空格");
         return false;
     }
-    pwd_h.innerText = "";
     return true;
 }
 
-function success(text) {
-    var textarea = document.getElementById('pwd-h');
-    textarea.innerText = "    " + text;
+function showInfo(info) {
+    var hint = document.getElementById("hint");
+    if (hint.hasAttribute("hidden")) {
+        hint.removeAttribute("hidden");
+    }
+    hint.innerText = info;
 }
 
-function loadDoc() {
+function login() {
     if (!checkInput()) {
         return;
     }
@@ -36,7 +41,11 @@ function loadDoc() {
     if (xmlhttp != null) {
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState === 4) {
-                return success(xmlhttp.responseText);
+                if(xmlhttp.responseText == "true") {
+                    window.location.href = "/";
+                    return;
+                }
+                return showInfo(xmlhttp.responseText);
             } else {
                 // return fail(xmlhttp.status);
                 return "";
@@ -44,6 +53,16 @@ function loadDoc() {
         };
     }
     // 发送请求:
-    xmlhttp.open('Get', '/login/ajax');
-    xmlhttp.send();
+    xmlhttp.open('POST', '/login');
+    var uname = document.getElementById("uname");
+    var pwd = document.getElementById("pwd");
+    var autologin = "off";
+    if (document.getElementById("autoLogin").checked) {
+        autologin = "on";
+    }
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.send("uname="+uname.value+"&pwd="+pwd.value+"&autoLogin="+autologin);
 }
+
+var submit = document.getElementById("submit");
+submit.addEventListener("click", login);

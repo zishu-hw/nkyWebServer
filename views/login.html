@@ -3,24 +3,25 @@
 </head>
 
 <body>
-    <script type="text/javascript" src="/static/js/login.js"></script>
-    <div class="container" style="width:200px;">
-        <form class="form-horizontal" action="/login" method="post">
+    <div class="container" style="width:250px;">
+        <form class="form-horizontal">
             <div class="form-group">
-                <label for="uname">管理员账号<span style="color:red" id="uname-h"></span></label>
+                <label for="uname">管理员账号</label>
                 <input type="text" id="uname" name="uname" placeholder="管理员账号" class="form-control">
             </div>
             <div class="form-group">
-                <label for="pwd">管理员密码<span style="color:red" id="pwd-h"></span></label>
+                <label for="pwd">管理员密码</label>
                 <input type="password" name="pwd" id="pwd" placeholder="管理员密码" class="form-control">
+                <div id="hint" class="alert alert-danger" hidden></div>
             </div>
             <div class="form-group">
-                <label><input type="checkbox" name="autoLogin">自动登录</label>
-                <a class="pull-right"><button class="btn btn-default" onclick="loadDoc();">登录</button></a>
+                <label><input type="checkbox" id="autoLogin" name="autoLogin">自动登录</label>
+                <a class="pull-right"><button id="submit" type="button" class="btn btn-default">登录</button></a>
             </div>
         </form>
         <!-- <iframe id="myIframe" name="myIframe" style="display:none;"></iframe> -->
     </div>
+    <script type="text/javascript" src="/static/js/login.js"></script>
 </body>
 
 </html>
