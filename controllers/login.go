@@ -14,6 +14,13 @@ type LoginController struct {
 }
 
 func (c *LoginController) Get() {
+	// 判断是否为退出操作
+	if c.Input().Get("exit") == "true" {
+		c.Ctx.SetCookie("uname", "", -1, "/")
+		c.Ctx.SetCookie("pwd", "", -1, "/")
+		c.Redirect("/login", 302)
+		return
+	}
 	c.TplName = "login.html"
 }
 

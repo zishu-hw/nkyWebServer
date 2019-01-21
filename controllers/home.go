@@ -30,4 +30,5 @@ func (c *MainController) Get() {
 		return
 	}
 	c.Data["NodeDatas"] = nodeDatas
+	c.Data["IsHome"] = true
 }
